@@ -24,7 +24,7 @@ class Product extends Model
         return $this->hasMany(OrderItem::class);
     }
 
-    public function inventoryMovements()
+    public function movements()
     {
         return $this->hasMany(InventoryMovement::class);
     }
