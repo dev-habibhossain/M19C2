@@ -15,6 +15,7 @@ class Category extends Model
         'position',
     ];
 
+    // own Relationships start
     public function parent()
     {
         return $this->belongsTo(Category::class, 'parent_id');
@@ -24,7 +25,9 @@ class Category extends Model
     {
         return $this->hasMany(Category::class, 'parent_id');
     }
+    // own Relationships end
 
+    // relationship with product
     public function products()
     {
         return $this->belongsToMany(Product::class);

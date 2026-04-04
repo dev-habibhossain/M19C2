@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\Order;
@@ -49,9 +50,11 @@ class TestController
     }
 
 
-    // public function oneToManyRev()
-    // {
-    //     $data = Order::with('customer')->get();
-    //     return response()->json($data);
-    // }
+    public function manyToMany()
+    {
+        $products = Product::whereHas('categories', function ($query) {
+            $query->where('name', 'Phones');
+        })->with('categories')->get();
+        return response()->json($products);
+    }
 }

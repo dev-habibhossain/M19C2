@@ -9,4 +9,4 @@ Route::get('/', function () {
 
 Route::get('/one-to-one', [TestController::class, 'oneToOne']);
 Route::get('/one-to-many', [TestController::class, 'oneToMany']);
-Route::get('/one-to-many-rev', [TestController::class, 'oneToManyRev']);
+Route::get('/many-to-many', [TestController::class, 'manyToMany']);
