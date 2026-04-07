@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
-use Illuminate\Http\Request;
 use App\Models\Customer;
-use App\Models\Order;
 
 class TestController
 {
@@ -35,7 +34,21 @@ class TestController
     // }
 
     // method 4
-     {
+    //  {
+    //     $data = Customer::select('id', 'name', 'email', 'phone')->with([
+    //         'orders' => function ($query) {
+    //             $query->select('id', 'customer_id', 'order_no', 'status', 'grand_total')->orderBy('id', 'desc');
+    //         },
+    //         'orders.items' => function($query) {
+    //             $query->select('id','order_id','product_id','qty','unit_price')->orderBy('id', 'desc');
+    //         }
+    //     ])->orderBy('id', 'desc')->get();
+
+
+    //     return response()->json($data);
+    // }
+    // method 4 with whereHas
+    {
         $data = Customer::select('id', 'name', 'email', 'phone')->with([
             'orders' => function ($query) {
                 $query->select('id', 'customer_id', 'order_no', 'status', 'grand_total')->orderBy('id', 'desc');
@@ -57,4 +70,13 @@ class TestController
         })->with('categories')->get();
         return response()->json($products);
     }
+
+    public function productWithCat ()
+    {
+        $products = Category::with('products')->get();
+        return response()->json($products);
+    }
+
 }
+
+    
