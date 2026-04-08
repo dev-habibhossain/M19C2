@@ -77,6 +77,19 @@ class TestController
         return response()->json($products);
     }
 
+    public function selfRef()
+    {
+        $data = Category::with('children')
+        // ->where('parent_id', null)->get();
+        ->whereNull('parent_id')->get();
+
+        $withParent = Category::with('parent')->whereNotNull('parent_id')->get();
+        return response()->json([
+            'withChildren' => $data,
+            'withParent' => $withParent
+        ]);
+    }
+
 }
 
     
