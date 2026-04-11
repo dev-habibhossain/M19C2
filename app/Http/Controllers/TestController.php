@@ -84,12 +84,10 @@ class TestController
         ->whereNull('parent_id')->get();
 
         $withParent = Category::with('parent')->whereNotNull('parent_id')->get();
+
         return response()->json([
             'withChildren' => $data,
             'withParent' => $withParent
         ]);
     }
-
 }
-
-    

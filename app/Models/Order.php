@@ -33,4 +33,11 @@ class Order extends Model
     {
         return $this->hasMany(Payment::class);
     }
+    public function scopeBetweenDates($query, ?string $from, ?string $to)
+    {
+        if($from && $to) {
+            return $query->whereBetween('created_at', [$from, $to]);
+        }
+        return $query;
+    }
 }
