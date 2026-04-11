@@ -40,4 +40,15 @@ class Order extends Model
         }
         return $query;
     }
+
+    public function totalPaidAmount(): float
+    {
+        return (float) $this->payments()->sum('amount');
+    }
+
+    public function dueAmount(): float
+    {
+        return (float) $this->grand_total - $this->totalPaidAmount();
+    }
+
 }
