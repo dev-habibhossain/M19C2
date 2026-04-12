@@ -34,11 +34,19 @@ class ReportController
         $query->betweenDates($from, $to);
       })->sum('amount');
 
+      $totalDue = $totalRevenue - $totalPaid;
+
+      $revenueByStatus = (clone $ordersQuery)
+        ->selectRaw('status, COUNT(*) as total_orders, SUM(grand_total) as total_revenue')
+        ->groupBy('status')->get();
+
       return response()->json([
         "total_customers" => $totalCustomers,
         "total_orders" => $totalOrders,
         "total_revenue" => $totalRevenue,
-        "total_paid" => $totalPaid
+        "total_paid" => $totalPaid,
+        "total_due" => $totalDue,
+        "revenue_status"=> $revenueByStatus
       ]);
     }
 }
