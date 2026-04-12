@@ -21,13 +21,10 @@ class ReportController
 
       //Base query
       $ordersQuery = Order::query()->betweenDates($from, $to);
-
-
-      //Total customer
       $totalCustomers = Customer::count();
-
-      //Total orders
+      
       $totalOrders = (clone $ordersQuery)->count();
+      $totalOrdersAgain = Order::whereBetween('created_at', [$from, $to])->count();
       $totalRevenue = (clone $ordersQuery)->sum('grand_total');
 
       $totalPaid = Payment::whereHas('order', function($query) use ($from, $to){
@@ -36,13 +33,15 @@ class ReportController
 
       $totalDue = $totalRevenue - $totalPaid;
 
+      // ToDo : i want to know that how that is worked?
+
       $revenueByStatus = (clone $ordersQuery)
         ->selectRaw('status, COUNT(*) as total_orders, SUM(grand_total) as total_revenue')
         ->groupBy('status')->get();
 
       return response()->json([
         "total_customers" => $totalCustomers,
-        "total_orders" => $totalOrders,
+        "total_orders" => $totalOrdersAgain,
         "total_revenue" => $totalRevenue,
         "total_paid" => $totalPaid,
         "total_due" => $totalDue,
